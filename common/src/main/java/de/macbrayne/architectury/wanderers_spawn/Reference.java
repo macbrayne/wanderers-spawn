@@ -1,7 +1,7 @@
 package de.macbrayne.architectury.wanderers_spawn;
 
-import de.macbrayne.architectury.wanderers_spawn.config.ModConfig;
+import de.macbrayne.architectury.wanderers_spawn.config.PlayerConfig;
 
 public class Reference {
-    public static ModConfig modConfig = new ModConfig();
+    public static PlayerConfig globalConfig = new PlayerConfig();
 }

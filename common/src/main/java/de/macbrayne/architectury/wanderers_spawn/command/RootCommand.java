@@ -29,7 +29,7 @@ public class RootCommand {
         return Commands.literal("enable")
                 .then(Commands.literal("Global")
                         .executes(context -> {
-                            Reference.modConfig.enabled = true;
+                            Reference.globalConfig.enabled = true;
                             return 1;
                         }))
                 .then(Commands.argument("player", EntityArgument.player()));
@@ -39,7 +39,7 @@ public class RootCommand {
         return Commands.literal("disable")
                 .then(Commands.literal("Global")
                         .executes(context -> {
-                            Reference.modConfig.enabled = false;
+                            Reference.globalConfig.enabled = false;
                             return 1;
                         }))
                 .then(Commands.argument("player", EntityArgument.player()));
@@ -49,7 +49,7 @@ public class RootCommand {
         return Commands.literal("status")
                 .then(Commands.literal("Global")
                         .executes(context -> {
-                            context.getSource().sendSuccess(Component.nullToEmpty(Reference.modConfig.enabled + ""), false);
+                            context.getSource().sendSuccess(Component.nullToEmpty(Reference.globalConfig.enabled + ""), false);
                             return 1;
                         }))
                 .then(Commands.argument("player", EntityArgument.player()));
