@@ -4,9 +4,9 @@
   "package": "de.macbrayne.architectury.wanderers_spawn.fabric.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "ServerPlayerMixin"
   ],
   "server": [
-    "ServerPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
