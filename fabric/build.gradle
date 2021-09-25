@@ -13,7 +13,16 @@ architectury {
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+
+    Set<String> apiModules = [
+            "fabric-api-base",
+            "fabric-command-api-v1"
+    ]
+
+    // Add each module as a dependency
+    apiModules.forEach {
+        include(modApi(fabricApi.module(it, project.fabric_api_version)))
+    }
 
     implementation(project(path: ":common")) {
         transitive = false
