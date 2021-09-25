@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
+  "id": "wanderers-spawn",
   "version": "${version}",
-  "name": "Example Mod",
+  "name": "Wanderer's Spawn",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
     "macbrayne"
