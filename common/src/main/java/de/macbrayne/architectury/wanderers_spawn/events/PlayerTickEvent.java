@@ -14,7 +14,6 @@ public class PlayerTickEvent {
 
     public static void tick(ServerPlayer player) {
         if (player.isAlive()) {
-            System.out.println(cooldown + " " + rawStat);
             cooldown = switch (MOD_CONFIG.trigger) {
                 case TIME -> cooldown - 1;
                 case DISTANCE -> {

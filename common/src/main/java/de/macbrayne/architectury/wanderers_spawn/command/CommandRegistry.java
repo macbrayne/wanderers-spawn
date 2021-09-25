@@ -6,8 +6,9 @@ import net.minecraft.commands.CommandSourceStack;
 
 public class CommandRegistry {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, boolean isDedicated) {
-        LiteralCommandNode<CommandSourceStack> root = RootCommand.get().build();
+        RootCommand rootCommand = new RootCommand();
+        LiteralCommandNode<CommandSourceStack> root = rootCommand.get().build();
         dispatcher.getRoot().addChild(root);
-        dispatcher.register(RootCommand.alias(root));
+        dispatcher.register(rootCommand.alias(root));
     }
 }

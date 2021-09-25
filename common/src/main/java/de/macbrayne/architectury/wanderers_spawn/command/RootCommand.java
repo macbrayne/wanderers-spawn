@@ -10,22 +10,22 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 
 public class RootCommand {
-    public static LiteralArgumentBuilder<CommandSourceStack> get() {
+    public LiteralArgumentBuilder<CommandSourceStack> get() {
         return Commands.literal("wanderersspawn")
                 .requires(CommandUtils::isPermitted)
-                .then(ConditionsSubcommand.get())
+                .then(new ConditionsSubcommand().get())
                 .then(getEnable())
                 .then(getDisable())
                 .then(getStatus());
     }
 
-    public static LiteralArgumentBuilder<CommandSourceStack> alias(LiteralCommandNode<CommandSourceStack> redirect) {
+    public LiteralArgumentBuilder<CommandSourceStack> alias(LiteralCommandNode<CommandSourceStack> redirect) {
         return Commands.literal("ws")
                 .requires(CommandUtils::isPermitted)
                 .redirect(redirect);
     }
 
-    private static LiteralArgumentBuilder<CommandSourceStack> getEnable() {
+    private LiteralArgumentBuilder<CommandSourceStack> getEnable() {
         return Commands.literal("enable")
                 .then(Commands.literal("Global")
                         .executes(context -> {
@@ -45,7 +45,7 @@ public class RootCommand {
                 .then(Commands.argument("player", EntityArgument.player()));
     }
 
-    private static LiteralArgumentBuilder<CommandSourceStack> getStatus() {
+    private LiteralArgumentBuilder<CommandSourceStack> getStatus() {
         return Commands.literal("status")
                 .then(Commands.literal("Global")
                         .executes(context -> {

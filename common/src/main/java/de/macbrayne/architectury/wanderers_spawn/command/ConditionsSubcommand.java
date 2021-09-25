@@ -13,7 +13,7 @@ import net.minecraft.network.chat.Component;
 import java.util.Locale;
 
 public class ConditionsSubcommand {
-    public static LiteralArgumentBuilder<CommandSourceStack> get() {
+    public LiteralArgumentBuilder<CommandSourceStack> get() {
         return Commands.literal("conditions")
                 .requires(CommandUtils::isPermitted)
                 .then(getSet())
@@ -21,7 +21,7 @@ public class ConditionsSubcommand {
                 .then(getReset());
     }
 
-    private static LiteralArgumentBuilder<CommandSourceStack> getSet() {
+    private LiteralArgumentBuilder<CommandSourceStack> getSet() {
         return Commands.literal("set")
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
@@ -67,7 +67,7 @@ public class ConditionsSubcommand {
                                                 .executes(context -> announceQuery(context, "XP Cost"))))));
     }
 
-    private static LiteralArgumentBuilder<CommandSourceStack> getQuery() {
+    private LiteralArgumentBuilder<CommandSourceStack> getQuery() {
         return Commands.literal("query")
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
@@ -87,7 +87,7 @@ public class ConditionsSubcommand {
                                 .executes(context -> announceQuery(context, "XP Cost"))));
     }
 
-    private static LiteralArgumentBuilder<CommandSourceStack> getReset() {
+    private LiteralArgumentBuilder<CommandSourceStack> getReset() {
         return Commands.literal("reset")
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
@@ -107,12 +107,12 @@ public class ConditionsSubcommand {
                                 .executes(context -> announceReset(context, "XP Cost"))));
     }
 
-    private static int announceQuery(CommandContext<CommandSourceStack> context, String message) {
+    private int announceQuery(CommandContext<CommandSourceStack> context, String message) {
         context.getSource().sendSuccess(Component.nullToEmpty(message), false);
         return 1;
     }
 
-    private static int announceReset(CommandContext<CommandSourceStack> context, String message) {
+    private int announceReset(CommandContext<CommandSourceStack> context, String message) {
         context.getSource().sendSuccess(Component.nullToEmpty(message), false);
         return 1;
     }
