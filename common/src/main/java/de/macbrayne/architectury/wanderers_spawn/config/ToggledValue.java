@@ -2,15 +2,15 @@ package de.macbrayne.architectury.wanderers_spawn.config;
 
 import java.util.function.Predicate;
 
-public class Condition<T> {
+public class ToggledValue<T> {
     private boolean enabled = true;
     private T value;
 
-    private Condition() {
+    private ToggledValue() {
 
     }
 
-    public Condition(T value) {
+    public ToggledValue(T value) {
         this.value = value;
     }
 

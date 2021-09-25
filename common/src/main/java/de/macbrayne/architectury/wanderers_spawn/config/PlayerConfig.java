@@ -4,10 +4,10 @@ import net.minecraft.util.Unit;
 
 public class PlayerConfig {
     public boolean enabled;
-    public Condition<Integer> timeSpentCondition = new Condition<>(300);
-    public Condition<Integer> afterCondition = new Condition<>(0);
-    public Condition<Integer> beforeCondition = new Condition<>(0);
-    public Condition<Unit> directSunlightCondition = new Condition<>(Unit.INSTANCE);
-    public Condition<Integer> distanceWalkedCondition = new Condition<>(0);
-    public Condition<Unit> noMonstersNearbyCondition = new Condition<>(Unit.INSTANCE);
+    public ToggledValue<Integer> timeSpentCondition = new ToggledValue<>(300);
+    public ToggledValue<Integer> afterCondition = new ToggledValue<>(0);
+    public ToggledValue<Integer> beforeCondition = new ToggledValue<>(0);
+    public ToggledValue<Unit> directSunlightCondition = new ToggledValue<>(Unit.INSTANCE);
+    public ToggledValue<Integer> distanceWalkedCondition = new ToggledValue<>(0);
+    public ToggledValue<Unit> noMonstersNearbyCondition = new ToggledValue<>(Unit.INSTANCE);
 }
