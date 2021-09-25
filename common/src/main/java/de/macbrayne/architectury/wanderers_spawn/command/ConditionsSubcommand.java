@@ -4,6 +4,7 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import de.macbrayne.architectury.wanderers_spawn.Reference;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -27,7 +28,10 @@ public class ConditionsSubcommand {
                 .then(Commands.argument("player", EntityArgument.player())
                         .then(Commands.literal(Conditions.TIME_SPENT.commandSyntax)
                                 .then(Commands.argument("cooldown", TimeArgument.time())
-                                        .executes(context -> announceQuery(context, "Time Spent"))))
+                                        .executes(context -> {
+                                            Reference.globalConfig.timeSpentCondition.setAndEnable(IntegerArgumentType.getInteger(context, "cooldown"));
+                                            return announceQuery(context, "Time Spent");
+                                        })))
                         .then(Commands.literal(Conditions.AFTER.commandSyntax)
                                 .then(Commands.literal("day")
                                         .executes(context -> announceQuery(context, "After")))
@@ -52,16 +56,28 @@ public class ConditionsSubcommand {
                                         .executes(context -> announceQuery(context, "Before"))))
                         .then(Commands.literal(Conditions.DIRECT_SKYLIGHT.commandSyntax)
                                 .then(Commands.argument("required", BoolArgumentType.bool())
-                                        .executes(context -> announceQuery(context, "Required"))))
+                                        .executes(context -> {
+                                            Reference.globalConfig.directSunlightCondition.setEnabled(BoolArgumentType.getBool(context, "required"));
+                                            return announceQuery(context, "Required");
+                                        })))
                         .then(Commands.literal(Conditions.DISTANCE_WALKED.commandSyntax)
                                 .then(Commands.argument("walked", IntegerArgumentType.integer(0))
-                                        .executes(context -> announceQuery(context, "Walked"))))
+                                        .executes(context -> {
+                                            Reference.globalConfig.distanceWalkedCondition.setAndEnable(IntegerArgumentType.getInteger(context, "walked"));
+                                            return announceQuery(context, "Walked");
+                                        })))
                         .then(Commands.literal(Conditions.NO_MONSTERS_NEARBY.commandSyntax)
                                 .then(Commands.argument("required", BoolArgumentType.bool())
-                                        .executes(context -> announceQuery(context, "Required"))))
+                                        .executes(context -> {
+                                            Reference.globalConfig.noMonstersNearbyCondition.setEnabled(BoolArgumentType.getBool(context, "required"));
+                                            return announceQuery(context, "Required");
+                                        })))
                         .then(Commands.literal(Conditions.MIN_HEALTH.commandSyntax)
                                 .then(Commands.argument("health", IntegerArgumentType.integer(0, 20))
-                                        .executes(context -> announceQuery(context, "Health"))))
+                                        .executes(context -> {
+                                            Reference.globalConfig.minHealthCondition.setAndEnable(IntegerArgumentType.getInteger(context, "health"));
+                                            return announceQuery(context, "Health");
+                                        })))
                         .then(Commands.literal(Conditions.XP_COST.commandSyntax)
                                 .then(Commands.argument("amount", IntegerArgumentType.integer(0))
                                         .then(Commands.literal("points")
