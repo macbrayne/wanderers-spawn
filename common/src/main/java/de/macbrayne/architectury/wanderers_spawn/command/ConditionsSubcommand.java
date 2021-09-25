@@ -17,13 +17,13 @@ public class ConditionsSubcommand {
     public LiteralArgumentBuilder<CommandSourceStack> get() {
         return Commands.literal("conditions")
                 .requires(CommandUtils::isPermitted)
-                .then(getSet())
+                .then(getAdd())
                 .then(getQuery())
-                .then(getReset());
+                .then(getRemove());
     }
 
-    private LiteralArgumentBuilder<CommandSourceStack> getSet() {
-        return Commands.literal("set")
+    private LiteralArgumentBuilder<CommandSourceStack> getAdd() {
+        return Commands.literal("add")
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
                         .then(Commands.literal(Conditions.TIME_SPENT.commandSyntax)
@@ -108,8 +108,8 @@ public class ConditionsSubcommand {
                                 .executes(context -> announceQuery(context, "XP Cost"))));
     }
 
-    private LiteralArgumentBuilder<CommandSourceStack> getReset() {
-        return Commands.literal("reset")
+    private LiteralArgumentBuilder<CommandSourceStack> getRemove() {
+        return Commands.literal("remove")
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
                         .then(Commands.literal(Conditions.TIME_SPENT.commandSyntax)
