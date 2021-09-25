@@ -34,26 +34,26 @@ public class ConditionsSubcommand {
                                         })))
                         .then(Commands.literal(Conditions.AFTER.commandSyntax)
                                 .then(Commands.literal("day")
-                                        .executes(context -> announceQuery(context, "After")))
+                                        .executes(context -> setAfter(context, 0)))
                                 .then(Commands.literal("noon")
-                                        .executes(context -> announceQuery(context, "After")))
+                                        .executes(context -> setAfter(context, 6000)))
                                 .then(Commands.literal("night")
-                                        .executes(context -> announceQuery(context, "After")))
+                                        .executes(context -> setAfter(context, 12000)))
                                 .then(Commands.literal("midnight")
-                                        .executes(context -> announceQuery(context, "After")))
+                                        .executes(context -> setAfter(context, 18000)))
                                 .then(Commands.argument("time", TimeArgument.time())
-                                        .executes(context -> announceQuery(context, "After"))))
+                                        .executes(context -> setAfter(context, IntegerArgumentType.getInteger(context, "time")))))
                         .then(Commands.literal(Conditions.BEFORE.commandSyntax)
                                 .then(Commands.literal("day")
-                                        .executes(context -> announceQuery(context, "Before")))
+                                        .executes(context -> setBefore(context, 0)))
                                 .then(Commands.literal("noon")
-                                        .executes(context -> announceQuery(context, "Before")))
+                                        .executes(context -> setBefore(context, 6000)))
                                 .then(Commands.literal("night")
-                                        .executes(context -> announceQuery(context, "Before")))
+                                        .executes(context -> setBefore(context, 12000)))
                                 .then(Commands.literal("midnight")
-                                        .executes(context -> announceQuery(context, "Before")))
+                                        .executes(context -> setBefore(context, 18000)))
                                 .then(Commands.argument("time", TimeArgument.time())
-                                        .executes(context -> announceQuery(context, "Before"))))
+                                        .executes(context -> setBefore(context, IntegerArgumentType.getInteger(context, "time")))))
                         .then(Commands.literal(Conditions.DIRECT_SKYLIGHT.commandSyntax)
                                 .then(Commands.argument("required", BoolArgumentType.bool())
                                         .executes(context -> {
@@ -84,6 +84,16 @@ public class ConditionsSubcommand {
                                                 .executes(context -> announceQuery(context, "XP Cost")))
                                         .then(Commands.literal("levels")
                                                 .executes(context -> announceQuery(context, "XP Cost"))))));
+    }
+
+    private int setBefore(CommandContext<CommandSourceStack> context, int ticks) {
+        Reference.globalConfig.beforeCondition.setAndEnable(ticks);
+        return announceQuery(context, "Set Before to " + ticks);
+    }
+
+    private int setAfter(CommandContext<CommandSourceStack> context, int ticks) {
+        Reference.globalConfig.afterCondition.setAndEnable(ticks);
+        return announceQuery(context, "Set After to " + ticks);
     }
 
     private LiteralArgumentBuilder<CommandSourceStack> getQuery() {
