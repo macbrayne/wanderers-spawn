@@ -59,6 +59,9 @@ public class ConditionsSubcommand {
                         .then(Commands.literal(Conditions.NO_MONSTERS_NEARBY.commandSyntax)
                                 .then(Commands.argument("required", BoolArgumentType.bool())
                                         .executes(context -> announceQuery(context, "Required"))))
+                        .then(Commands.literal(Conditions.MIN_HEALTH.commandSyntax)
+                                .then(Commands.argument("health", IntegerArgumentType.integer(0, 20))
+                                        .executes(context -> announceQuery(context, "Health"))))
                         .then(Commands.literal(Conditions.XP_COST.commandSyntax)
                                 .then(Commands.argument("amount", IntegerArgumentType.integer(0))
                                         .then(Commands.literal("points")
@@ -83,6 +86,8 @@ public class ConditionsSubcommand {
                                 .executes(context -> announceQuery(context, "Distance Walked")))
                         .then(Commands.literal(Conditions.NO_MONSTERS_NEARBY.commandSyntax)
                                 .executes(context -> announceQuery(context, "No Monsters Nearby")))
+                        .then(Commands.literal(Conditions.MIN_HEALTH.commandSyntax)
+                                .executes(context -> announceQuery(context, "Min Health")))
                         .then(Commands.literal(Conditions.XP_COST.commandSyntax)
                                 .executes(context -> announceQuery(context, "XP Cost"))));
     }
@@ -103,6 +108,8 @@ public class ConditionsSubcommand {
                                 .executes(context -> announceReset(context, "Distance Walked")))
                         .then(Commands.literal(Conditions.NO_MONSTERS_NEARBY.commandSyntax)
                                 .executes(context -> announceReset(context, "No Monsters Nearby")))
+                        .then(Commands.literal(Conditions.MIN_HEALTH.commandSyntax)
+                                .executes(context -> announceReset(context, "Min Health")))
                         .then(Commands.literal(Conditions.XP_COST.commandSyntax)
                                 .executes(context -> announceReset(context, "XP Cost"))));
     }
@@ -120,7 +127,8 @@ public class ConditionsSubcommand {
     public enum Conditions {
         TIME_SPENT("timeSpent"), AFTER, BEFORE,
         DIRECT_SKYLIGHT("directSkylight"), DISTANCE_WALKED("distanceWalked"),
-        NO_MONSTERS_NEARBY("noMonstersNearby"), XP_COST("xpCost");
+        NO_MONSTERS_NEARBY("noMonstersNearby"), XP_COST("xpCost"),
+        MIN_HEALTH("minHealth");
 
         String commandSyntax;
 

@@ -10,4 +10,5 @@ public class PlayerConfig {
     public ToggledValue<Unit> directSunlightCondition = new ToggledValue<>(Unit.INSTANCE);
     public ToggledValue<Integer> distanceWalkedCondition = new ToggledValue<>(0);
     public ToggledValue<Unit> noMonstersNearbyCondition = new ToggledValue<>(Unit.INSTANCE);
+    public ToggledValue<Integer> minHealthCondition = new ToggledValue<>(0);
 }

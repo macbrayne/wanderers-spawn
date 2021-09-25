@@ -12,29 +12,34 @@ import net.minecraft.world.phys.Vec3;
 
 public class PlayerTickEvent {
     private static final PlayerConfig MOD_CONFIG = Reference.globalConfig;
-    private static int rawStat = 0;
-    private static int timeSpent = MOD_CONFIG.timeSpentCondition.getValue();
-    private static int distanceWalked = MOD_CONFIG.distanceWalkedCondition.getValue();
+    private static int distanceWalkedRawValue = 0;
+    private static int timeLeft = MOD_CONFIG.timeSpentCondition.getValue();
+    private static int distanceLeft = MOD_CONFIG.distanceWalkedCondition.getValue();
 
     public static void tick(ServerPlayer player) {
         if (player.isAlive()) {
-            if(MOD_CONFIG.timeSpentCondition.ifEnabled(ignored -> timeSpent > 0)) {
-                timeSpent -= 1;
+            if(MOD_CONFIG.timeSpentCondition.isEnabled() && timeLeft > 0) {
+                timeLeft -= 1;
             }
-            if(MOD_CONFIG.distanceWalkedCondition.ifEnabled(ignored -> distanceWalked > 0)) {
-                int oldStat = rawStat;
-                rawStat = player.getStats().getValue(Stats.CUSTOM.get(Stats.WALK_ONE_CM)) +
+            if(MOD_CONFIG.distanceWalkedCondition.isEnabled() && distanceLeft > 0) {
+                int oldValue = distanceWalkedRawValue;
+                distanceWalkedRawValue = player.getStats().getValue(Stats.CUSTOM.get(Stats.WALK_ONE_CM)) +
                         player.getStats().getValue(Stats.CUSTOM.get(Stats.SPRINT_ONE_CM));
 
-                distanceWalked -= Math.min(0, rawStat - oldStat);
+                if(distanceWalkedRawValue != 0) {
+                    distanceWalkedRawValue /= 100; // Convert from CM into Metres
+                }
+
+                distanceLeft -= Math.min(0, distanceWalkedRawValue - oldValue);
             }
-            if (MOD_CONFIG.directSunlightCondition.ifEnabled(ignored -> hasDirectSunlight(player)) ||
+            if (MOD_CONFIG.directSunlightCondition.ifEnabled(ignored -> !hasDirectSunlight(player)) ||
                     MOD_CONFIG.afterCondition.ifEnabled(after -> player.level.dayTime() < after) ||
                     MOD_CONFIG.beforeCondition.ifEnabled(before -> player.level.dayTime() > before) ||
+                    MOD_CONFIG.minHealthCondition.ifEnabled(minHealth -> player.getHealth() < minHealth) ||
                     MOD_CONFIG.noMonstersNearbyCondition.ifEnabled(ignored -> areMonstersNearby(player))) {
                 return;
             }
-            if(timeSpent < 0 && distanceWalked < 0) {
+            if(timeLeft <= 0 && distanceLeft <= 0) {
                 reset(player);
             }
         }
@@ -51,6 +56,6 @@ public class PlayerTickEvent {
 
     private static void reset(ServerPlayer player) {
         player.setRespawnPosition(player.level.dimension(), new BlockPos(player.position()), 0, false, true);
-        timeSpent = MOD_CONFIG.timeSpentCondition.getValue();
+        timeLeft = MOD_CONFIG.timeSpentCondition.getValue();
     }
 }
