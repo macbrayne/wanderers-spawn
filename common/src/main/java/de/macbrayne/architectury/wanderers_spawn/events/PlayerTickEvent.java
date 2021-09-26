@@ -35,7 +35,7 @@ public class PlayerTickEvent {
                     MOD_CONFIG.beforeCondition.notEnabledOr(before -> player.level.dayTime() < before) &&
                     MOD_CONFIG.minHealthCondition.notEnabledOr(minHealth -> player.getHealth() > minHealth) &&
                     MOD_CONFIG.noMonstersNearbyCondition.notEnabledOr(noMonsters -> noMonsters != areMonstersNearby(player))) {
-                reset(player);
+                setSpawnPoint(player);
             }
         }
     }
@@ -53,15 +53,23 @@ public class PlayerTickEvent {
                 .isEmpty();
     }
 
-    private static void reset(ServerPlayer player) {
-        if (MOD_CONFIG.xpCostOperation.isEnabled()) {
-            if (EnchantmentUtils.getPlayerXP(player) < MOD_CONFIG.xpCostOperation.getValue()) {
-                return;
-            }
+    private static void setSpawnPoint(ServerPlayer player) {
+        // Check if operations succeed
+        if (MOD_CONFIG.xpCostOperation.isEnabled() && EnchantmentUtils.getPlayerXP(player) < MOD_CONFIG.xpCostOperation.getValue()) {
+            return;
+        }
+
+        // Trigger operations
+        if(MOD_CONFIG.xpCostOperation.isEnabled()) {
             player.giveExperiencePoints(-MOD_CONFIG.xpCostOperation.getValue());
         }
-        player.setRespawnPosition(player.level.dimension(), new BlockPos(player.position()), 0, false, true);
+
+        // Reset Trigger Flags
         distanceTriggered = false;
         timeSpentTriggered = false;
+
+        // Set Spawn Position
+        player.setRespawnPosition(player.level.dimension(), new BlockPos(player.position()), 0, false, true);
     }
+
 }
