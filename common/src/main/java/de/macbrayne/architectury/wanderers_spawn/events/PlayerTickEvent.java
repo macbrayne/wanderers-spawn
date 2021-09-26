@@ -27,13 +27,13 @@ public class PlayerTickEvent {
                 timeSpentTriggered = true;
             }
 
-            if (MOD_CONFIG.directSunlightCondition.notEnabledOr(ignored -> hasDirectSunlight(player)) &&
+            if (MOD_CONFIG.directSunlightCondition.notEnabledOr(directSunlight -> directSunlight == hasDirectSunlight(player)) &&
                     timeSpentTriggered &&
                     distanceTriggered &&
                     MOD_CONFIG.afterCondition.notEnabledOr(after -> player.level.dayTime() > after) &&
                     MOD_CONFIG.beforeCondition.notEnabledOr(before -> player.level.dayTime() < before) &&
                     MOD_CONFIG.minHealthCondition.notEnabledOr(minHealth -> player.getHealth() > minHealth) &&
-                    MOD_CONFIG.noMonstersNearbyCondition.notEnabledOr(ignored -> !areMonstersNearby(player))) {
+                    MOD_CONFIG.noMonstersNearbyCondition.notEnabledOr(noMonsters -> noMonsters != areMonstersNearby(player))) {
                 reset(player);
             }
         }

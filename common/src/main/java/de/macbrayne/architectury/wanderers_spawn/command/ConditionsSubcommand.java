@@ -57,7 +57,7 @@ public class ConditionsSubcommand {
                         .then(Commands.literal(Conditions.DIRECT_SKYLIGHT.commandSyntax)
                                 .then(Commands.argument("required", BoolArgumentType.bool())
                                         .executes(context -> {
-                                            Reference.globalConfig.directSunlightCondition.setEnabled(BoolArgumentType.getBool(context, "required"));
+                                            Reference.globalConfig.directSunlightCondition.setAndEnable(BoolArgumentType.getBool(context, "required"));
                                             return announceQuery(context, "Required");
                                         })))
                         .then(Commands.literal(Conditions.DISTANCE_WALKED.commandSyntax)
@@ -69,7 +69,7 @@ public class ConditionsSubcommand {
                         .then(Commands.literal(Conditions.NO_MONSTERS_NEARBY.commandSyntax)
                                 .then(Commands.argument("required", BoolArgumentType.bool())
                                         .executes(context -> {
-                                            Reference.globalConfig.noMonstersNearbyCondition.setEnabled(BoolArgumentType.getBool(context, "required"));
+                                            Reference.globalConfig.noMonstersNearbyCondition.setAndEnable(BoolArgumentType.getBool(context, "required"));
                                             return announceQuery(context, "Required");
                                         })))
                         .then(Commands.literal(Conditions.MIN_HEALTH.commandSyntax)
