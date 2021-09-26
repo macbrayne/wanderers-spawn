@@ -35,7 +35,7 @@ public class ToggledValue<T> {
         this.value = value;
     }
 
-    public boolean notEnabledOr(Predicate<T> action) {
+    public boolean isDisabledOr(Predicate<T> action) {
         return !enabled || action.test(value);
     }
 }

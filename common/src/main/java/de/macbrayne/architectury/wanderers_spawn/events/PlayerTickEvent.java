@@ -21,20 +21,20 @@ public class PlayerTickEvent {
             int distanceWalkedRawValue = player.getStats().getValue(Stats.CUSTOM.get(Stats.WALK_ONE_CM)) +
                     player.getStats().getValue(Stats.CUSTOM.get(Stats.SPRINT_ONE_CM));
 
-            if (!distanceTriggered && MOD_CONFIG.timeSpentCondition.notEnabledOr(time -> player.tickCount % time == 0)) {
+            if (!distanceTriggered && MOD_CONFIG.timeSpentCondition.isDisabledOr(time -> player.tickCount % time == 0)) {
                 distanceTriggered = true;
             }
-            if (!timeSpentTriggered && MOD_CONFIG.distanceWalkedCondition.notEnabledOr(distance -> distanceWalkedRawValue % distance == 0)) {
+            if (!timeSpentTriggered && MOD_CONFIG.distanceWalkedCondition.isDisabledOr(distance -> distanceWalkedRawValue % distance == 0)) {
                 timeSpentTriggered = true;
             }
 
-            if (MOD_CONFIG.directSunlightCondition.notEnabledOr(directSunlight -> directSunlight == hasDirectSunlight(player)) &&
+            if (MOD_CONFIG.directSunlightCondition.isDisabledOr(directSunlight -> directSunlight == hasDirectSunlight(player)) &&
                     timeSpentTriggered &&
                     distanceTriggered &&
-                    MOD_CONFIG.afterCondition.notEnabledOr(after -> player.level.dayTime() > after) &&
-                    MOD_CONFIG.beforeCondition.notEnabledOr(before -> player.level.dayTime() < before) &&
-                    MOD_CONFIG.minHealthCondition.notEnabledOr(minHealth -> player.getHealth() > minHealth) &&
-                    MOD_CONFIG.noMonstersNearbyCondition.notEnabledOr(noMonsters -> noMonsters != areMonstersNearby(player))) {
+                    MOD_CONFIG.afterCondition.isDisabledOr(after -> player.level.dayTime() > after) &&
+                    MOD_CONFIG.beforeCondition.isDisabledOr(before -> player.level.dayTime() < before) &&
+                    MOD_CONFIG.minHealthCondition.isDisabledOr(minHealth -> player.getHealth() > minHealth) &&
+                    MOD_CONFIG.noMonstersNearbyCondition.isDisabledOr(noMonsters -> noMonsters != areMonstersNearby(player))) {
                 setSpawnPoint(player);
             }
         }
