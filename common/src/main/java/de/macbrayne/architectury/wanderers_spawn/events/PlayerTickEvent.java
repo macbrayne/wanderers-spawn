@@ -54,14 +54,14 @@ public class PlayerTickEvent {
     }
 
     private static void setSpawnPoint(ServerPlayer player) {
-        // Check if operations succeed
-        if (MOD_CONFIG.xpCostOperation.isEnabled() && EnchantmentUtils.getPlayerXP(player) < MOD_CONFIG.xpCostOperation.getValue()) {
+        // Check if actions can succeed
+        if (MOD_CONFIG.xpCostAction.isEnabled() && EnchantmentUtils.getPlayerXP(player) < MOD_CONFIG.xpCostAction.getValue()) {
             return;
         }
 
-        // Trigger operations
-        if(MOD_CONFIG.xpCostOperation.isEnabled()) {
-            player.giveExperiencePoints(-MOD_CONFIG.xpCostOperation.getValue());
+        // Trigger actions
+        if(MOD_CONFIG.xpCostAction.isEnabled()) {
+            player.giveExperiencePoints(-MOD_CONFIG.xpCostAction.getValue());
         }
 
         // Reset Trigger Flags

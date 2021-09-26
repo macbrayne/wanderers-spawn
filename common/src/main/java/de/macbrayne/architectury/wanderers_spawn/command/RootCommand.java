@@ -14,7 +14,7 @@ public class RootCommand {
         return Commands.literal("wanderersspawn")
                 .requires(CommandUtils::isPermitted)
                 .then(new ConditionsSubcommand().get())
-                .then(new OperationsSubcommand().get())
+                .then(new ActionsSubcommand().get())
                 .then(getEnable())
                 .then(getDisable())
                 .then(getStatus());

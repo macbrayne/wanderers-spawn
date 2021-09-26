@@ -12,9 +12,9 @@ import net.minecraft.network.chat.Component;
 
 import java.util.Locale;
 
-public class OperationsSubcommand {
+public class ActionsSubcommand {
     public LiteralArgumentBuilder<CommandSourceStack> get() {
-        return Commands.literal("operations")
+        return Commands.literal("actions")
                 .requires(CommandUtils::isPermitted)
                 .then(getAdd())
                 .then(getQuery())
@@ -25,7 +25,7 @@ public class OperationsSubcommand {
         return Commands.literal("add")
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
-                        .then(Commands.literal(Operations.XP_COST.commandSyntax)
+                        .then(Commands.literal(Actions.XP_COST.commandSyntax)
                                 .then(Commands.argument("amount", IntegerArgumentType.integer(0))
                                         .then(Commands.literal("points")
                                                 .executes(context -> setXpCost(context,  false)))
@@ -36,7 +36,7 @@ public class OperationsSubcommand {
     private int setXpCost(CommandContext<CommandSourceStack> context, boolean isAmountInLevels) {
         int argument = IntegerArgumentType.getInteger(context, "amount");
         int amount = isAmountInLevels ? EnchantmentUtils.getExperienceForLevel(argument) : argument;
-        Reference.globalConfig.xpCostOperation.setAndEnable(amount);
+        Reference.globalConfig.xpCostAction.setAndEnable(amount);
         return announceQuery(context, "");
     }
 
@@ -44,7 +44,7 @@ public class OperationsSubcommand {
         return Commands.literal("query")
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
-                        .then(Commands.literal(Operations.XP_COST.commandSyntax)
+                        .then(Commands.literal(Actions.XP_COST.commandSyntax)
                                 .executes(context -> announceQuery(context, "XP Cost"))));
     }
 
@@ -52,7 +52,7 @@ public class OperationsSubcommand {
         return Commands.literal("remove")
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
-                        .then(Commands.literal(Operations.XP_COST.commandSyntax)
+                        .then(Commands.literal(Actions.XP_COST.commandSyntax)
                                 .executes(context -> announceReset(context, "XP Cost"))));
     }
 
@@ -66,16 +66,16 @@ public class OperationsSubcommand {
         return 1;
     }
 
-    public enum Operations {
+    public enum Actions {
         XP_COST("xpCost");
 
         String commandSyntax;
 
-        Operations() {
+        Actions() {
             commandSyntax = name().toLowerCase(Locale.ROOT);
         }
 
-        Operations(String commandSyntax) {
+        Actions(String commandSyntax) {
             this.commandSyntax = commandSyntax;
         }
     }
