@@ -9,4 +9,6 @@ public class PlayerConfig {
     public ToggledValue<Integer> distanceWalkedCondition = new ToggledValue<>(0);
     public ToggledValue<Boolean> noMonstersNearbyCondition = new ToggledValue<>(false);
     public ToggledValue<Integer> minHealthCondition = new ToggledValue<>(0);
+
+    public ToggledValue<Integer> xpCostOperation = new ToggledValue<>(0);
 }

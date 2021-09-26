@@ -77,13 +77,7 @@ public class ConditionsSubcommand {
                                         .executes(context -> {
                                             Reference.globalConfig.minHealthCondition.setAndEnable(IntegerArgumentType.getInteger(context, "health"));
                                             return announceQuery(context, "Health");
-                                        })))
-                        .then(Commands.literal(Conditions.XP_COST.commandSyntax)
-                                .then(Commands.argument("amount", IntegerArgumentType.integer(0))
-                                        .then(Commands.literal("points")
-                                                .executes(context -> announceQuery(context, "XP Cost")))
-                                        .then(Commands.literal("levels")
-                                                .executes(context -> announceQuery(context, "XP Cost"))))));
+                                        }))));
     }
 
     private int setBefore(CommandContext<CommandSourceStack> context, int ticks) {

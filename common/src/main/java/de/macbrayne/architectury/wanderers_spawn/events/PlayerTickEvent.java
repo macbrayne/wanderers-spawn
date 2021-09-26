@@ -2,6 +2,7 @@ package de.macbrayne.architectury.wanderers_spawn.events;
 
 import de.macbrayne.architectury.wanderers_spawn.Reference;
 import de.macbrayne.architectury.wanderers_spawn.config.PlayerConfig;
+import de.macbrayne.architectury.wanderers_spawn.openmods.utils.EnchantmentUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -46,13 +47,19 @@ public class PlayerTickEvent {
     private static boolean areMonstersNearby(ServerPlayer player) {
         Vec3 blockCentre = Vec3.atBottomCenterOf(player.blockPosition());
         return !player.level.getEntitiesOfClass(Monster.class,
-                        new AABB(blockCentre.x() - 8.0D, blockCentre.y() - 5.0D,blockCentre.z() - 8.0D,
+                        new AABB(blockCentre.x() - 8.0D, blockCentre.y() - 5.0D, blockCentre.z() - 8.0D,
                                 blockCentre.x() + 8.0D, blockCentre.y() + 5.0D, blockCentre.z() + 8.0D),
                         (monster) -> monster.isPreventingPlayerRest(player))
                 .isEmpty();
     }
 
     private static void reset(ServerPlayer player) {
+        if (MOD_CONFIG.xpCostOperation.isEnabled()) {
+            if (EnchantmentUtils.getPlayerXP(player) < MOD_CONFIG.xpCostOperation.getValue()) {
+                return;
+            }
+            player.giveExperiencePoints(-MOD_CONFIG.xpCostOperation.getValue());
+        }
         player.setRespawnPosition(player.level.dimension(), new BlockPos(player.position()), 0, false, true);
         distanceTriggered = false;
         timeSpentTriggered = false;
