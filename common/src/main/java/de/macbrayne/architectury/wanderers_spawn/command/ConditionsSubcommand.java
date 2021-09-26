@@ -17,13 +17,13 @@ public class ConditionsSubcommand {
     public LiteralArgumentBuilder<CommandSourceStack> get() {
         return Commands.literal("conditions")
                 .requires(CommandUtils::isPermitted)
-                .then(getAdd())
+                .then(getSet())
                 .then(getQuery())
                 .then(getRemove());
     }
 
-    private LiteralArgumentBuilder<CommandSourceStack> getAdd() {
-        return Commands.literal("add")
+    private LiteralArgumentBuilder<CommandSourceStack> getSet() {
+        return Commands.literal("set")
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
                         .then(Commands.literal(Conditions.TIME_SPENT.commandSyntax)
