@@ -16,6 +16,9 @@ public class PlayerTickEvent {
     private static boolean distanceTriggered = false;
     private static boolean timeSpentTriggered = false;
 
+    public PlayerTickEvent(ServerPlayer player, PlayerConfig config) {
+    }
+
     public static void tick(ServerPlayer player) {
         if (player.isAlive()) {
             int distanceWalkedRawValue = player.getStats().getValue(Stats.CUSTOM.get(Stats.WALK_ONE_CM)) +

@@ -1,5 +1,6 @@
 package de.macbrayne.architectury.wanderers_spawn.fabric.mixin;
 
+import de.macbrayne.architectury.wanderers_spawn.ServerPlayerMixinPropertiesAccessor;
 import de.macbrayne.architectury.wanderers_spawn.events.PlayerTickEvent;
 import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,6 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ServerPlayerMixin {
     @Inject(at = @At(value = "HEAD"), method = "tick")
     public void tick(CallbackInfo ci) {
-        PlayerTickEvent.tick((ServerPlayer) (Object)this);
+        ((ServerPlayerMixinPropertiesAccessor)this).wanderersSpawn$playerTickEvent().tick((ServerPlayer) (Object) this);
     }
 }
