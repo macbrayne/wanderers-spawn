@@ -1,5 +1,8 @@
 package de.macbrayne.architectury.wanderers_spawn.config;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class ToggledValue<T> {
@@ -10,7 +13,7 @@ public class ToggledValue<T> {
 
     }
 
-    public ToggledValue(T value) {
+    public ToggledValue(@NotNull T value) {
         this.value = value;
     }
 
@@ -34,5 +37,26 @@ public class ToggledValue<T> {
 
     public boolean isDisabledOr(Predicate<T> action) {
         return !enabled || action.test(value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ToggledValue<?> that = (ToggledValue<?>) o;
+        return enabled == that.enabled && value.equals(that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(enabled, value);
+    }
+
+    @Override
+    public String toString() {
+        return "ToggledValue{" +
+                "enabled=" + enabled +
+                ", value=" + value +
+                '}';
     }
 }

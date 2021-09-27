@@ -4,6 +4,7 @@ package de.macbrayne.architectury.wanderers_spawn.command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.macbrayne.architectury.wanderers_spawn.Reference;
+import de.macbrayne.architectury.wanderers_spawn.config.GlobalConfig;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -17,7 +18,8 @@ public class RootCommand {
                 .then(new ActionsSubcommand().get())
                 .then(getEnable())
                 .then(getDisable())
-                .then(getStatus());
+                .then(getStatus())
+                .then(getReload());
     }
 
     public LiteralArgumentBuilder<CommandSourceStack> alias(LiteralCommandNode<CommandSourceStack> redirect) {
@@ -54,5 +56,13 @@ public class RootCommand {
                             return 1;
                         }))
                 .then(Commands.argument("player", EntityArgument.player()));
+    }
+
+    private LiteralArgumentBuilder<CommandSourceStack> getReload() {
+        return Commands.literal("reload")
+                .executes(context -> {
+                    Reference.globalConfig = GlobalConfig.load();
+                    return 1;
+                });
     }
 }
