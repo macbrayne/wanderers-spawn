@@ -1,6 +1,5 @@
 package de.macbrayne.architectury.wanderers_spawn.events;
 
-import de.macbrayne.architectury.wanderers_spawn.Reference;
 import de.macbrayne.architectury.wanderers_spawn.config.PlayerConfig;
 import de.macbrayne.architectury.wanderers_spawn.openmods.utils.EnchantmentUtils;
 import net.minecraft.core.BlockPos;
@@ -12,42 +11,45 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class PlayerTickEvent {
-    private static final PlayerConfig MOD_CONFIG = Reference.globalConfig;
-    private static boolean distanceTriggered = false;
-    private static boolean timeSpentTriggered = false;
+    private final ServerPlayer player;
+    private final PlayerConfig config;
+    private boolean distanceTriggered = false;
+    private boolean timeSpentTriggered = false;
 
     public PlayerTickEvent(ServerPlayer player, PlayerConfig config) {
+        this.player = player;
+        this.config = config;
     }
 
-    public static void tick(ServerPlayer player) {
+    public void tick() {
         if (player.isAlive()) {
             int distanceWalkedRawValue = player.getStats().getValue(Stats.CUSTOM.get(Stats.WALK_ONE_CM)) +
                     player.getStats().getValue(Stats.CUSTOM.get(Stats.SPRINT_ONE_CM));
 
-            if (!distanceTriggered && MOD_CONFIG.timeSpentCondition.isDisabledOr(time -> player.tickCount % time == 0)) {
+            if (!distanceTriggered && config.timeSpentCondition.isDisabledOr(time -> player.tickCount % time == 0)) {
                 distanceTriggered = true;
             }
-            if (!timeSpentTriggered && MOD_CONFIG.distanceWalkedCondition.isDisabledOr(distance -> distanceWalkedRawValue % distance == 0)) {
+            if (!timeSpentTriggered && config.distanceWalkedCondition.isDisabledOr(distance -> distanceWalkedRawValue % distance == 0)) {
                 timeSpentTriggered = true;
             }
 
-            if (MOD_CONFIG.directSunlightCondition.isDisabledOr(directSunlight -> directSunlight == hasDirectSunlight(player)) &&
+            if (config.directSunlightCondition.isDisabledOr(directSunlight -> directSunlight == hasDirectSunlight()) &&
                     timeSpentTriggered &&
                     distanceTriggered &&
-                    MOD_CONFIG.afterCondition.isDisabledOr(after -> player.level.dayTime() > after) &&
-                    MOD_CONFIG.beforeCondition.isDisabledOr(before -> player.level.dayTime() < before) &&
-                    MOD_CONFIG.minHealthCondition.isDisabledOr(minHealth -> player.getHealth() > minHealth) &&
-                    MOD_CONFIG.noMonstersNearbyCondition.isDisabledOr(noMonsters -> noMonsters != areMonstersNearby(player))) {
-                setSpawnPoint(player);
+                    config.afterCondition.isDisabledOr(after -> player.level.dayTime() > after) &&
+                    config.beforeCondition.isDisabledOr(before -> player.level.dayTime() < before) &&
+                    config.minHealthCondition.isDisabledOr(minHealth -> player.getHealth() > minHealth) &&
+                    config.noMonstersNearbyCondition.isDisabledOr(noMonsters -> noMonsters != areMonstersNearby())) {
+                setSpawnPoint();
             }
         }
     }
 
-    private static boolean hasDirectSunlight(ServerPlayer player) {
+    private boolean hasDirectSunlight() {
         return player.position().y >= player.level.getHeight(Heightmap.Types.WORLD_SURFACE, (int) player.position().x, (int) player.position().z);
     }
 
-    private static boolean areMonstersNearby(ServerPlayer player) {
+    private boolean areMonstersNearby() {
         Vec3 blockCentre = Vec3.atBottomCenterOf(player.blockPosition());
         return !player.level.getEntitiesOfClass(Monster.class,
                         new AABB(blockCentre.x() - 8.0D, blockCentre.y() - 5.0D, blockCentre.z() - 8.0D,
@@ -56,15 +58,15 @@ public class PlayerTickEvent {
                 .isEmpty();
     }
 
-    private static void setSpawnPoint(ServerPlayer player) {
+    private void setSpawnPoint() {
         // Check if actions can succeed
-        if (MOD_CONFIG.xpCostAction.isEnabled() && EnchantmentUtils.getPlayerXP(player) < MOD_CONFIG.xpCostAction.getValue()) {
+        if (config.xpCostAction.isEnabled() && EnchantmentUtils.getPlayerXP(player) < config.xpCostAction.getValue()) {
             return;
         }
 
         // Trigger actions
-        if(MOD_CONFIG.xpCostAction.isEnabled()) {
-            player.giveExperiencePoints(-MOD_CONFIG.xpCostAction.getValue());
+        if(config.xpCostAction.isEnabled()) {
+            player.giveExperiencePoints(-config.xpCostAction.getValue());
         }
 
         // Reset Trigger Flags

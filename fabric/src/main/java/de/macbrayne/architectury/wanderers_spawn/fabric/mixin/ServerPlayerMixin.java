@@ -12,6 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ServerPlayerMixin {
     @Inject(at = @At(value = "HEAD"), method = "tick")
     public void tick(CallbackInfo ci) {
-        ((ServerPlayerMixinPropertiesAccessor)this).wanderersSpawn$playerTickEvent().tick((ServerPlayer) (Object) this);
+        ((ServerPlayerMixinPropertiesAccessor)this).wanderersSpawn$playerTickEvent().tick();
     }
 }
