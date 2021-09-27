@@ -14,12 +14,13 @@ public class ToggledValue<T> {
         this.value = value;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public ToggledValue(ToggledValue<T> clone) {
+        this.enabled = clone.enabled;
+        this.value = clone.value;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public T getValue() {
@@ -28,10 +29,6 @@ public class ToggledValue<T> {
 
     public void setAndEnable(T value) {
         enabled = true;
-        this.value = value;
-    }
-
-    public void setValue(T value) {
         this.value = value;
     }
 
