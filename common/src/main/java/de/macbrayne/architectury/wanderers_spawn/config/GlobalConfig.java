@@ -1,6 +1,8 @@
 package de.macbrayne.architectury.wanderers_spawn.config;
 
 import de.macbrayne.architectury.wanderers_spawn.PlatformUtils;
+import de.macbrayne.architectury.wanderers_spawn.config.toggled.BooleanToggledValue;
+import de.macbrayne.architectury.wanderers_spawn.config.toggled.IntegerToggledValue;
 
 import java.io.IOException;
 

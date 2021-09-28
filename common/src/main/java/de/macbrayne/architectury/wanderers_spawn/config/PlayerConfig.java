@@ -1,6 +1,8 @@
 package de.macbrayne.architectury.wanderers_spawn.config;
 
 import de.macbrayne.architectury.wanderers_spawn.Reference;
+import de.macbrayne.architectury.wanderers_spawn.config.toggled.BooleanToggledValue;
+import de.macbrayne.architectury.wanderers_spawn.config.toggled.IntegerToggledValue;
 import net.minecraft.nbt.CompoundTag;
 
 public class PlayerConfig extends BaseConfig {

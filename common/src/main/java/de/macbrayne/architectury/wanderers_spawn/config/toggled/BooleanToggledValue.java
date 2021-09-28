@@ -1,4 +1,4 @@
-package de.macbrayne.architectury.wanderers_spawn.config;
+package de.macbrayne.architectury.wanderers_spawn.config.toggled;
 
 import net.minecraft.nbt.CompoundTag;
 
