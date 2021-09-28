@@ -6,33 +6,33 @@ import net.minecraft.nbt.CompoundTag;
 public class PlayerConfig extends BaseConfig {
     public PlayerConfig(BaseConfig copyConfig) {
         this.enabled = copyConfig.enabled;
-        timeSpentCondition = new ToggledValue<>(copyConfig.timeSpentCondition);
-        afterCondition = new ToggledValue<>(copyConfig.afterCondition);
-        beforeCondition = new ToggledValue<>(copyConfig.beforeCondition);
-        directSunlightCondition = new ToggledValue<>(copyConfig.directSunlightCondition);
-        distanceWalkedCondition = new ToggledValue<>(copyConfig.distanceWalkedCondition);
-        noMonstersNearbyCondition = new ToggledValue<>(copyConfig.noMonstersNearbyCondition);
-        minHealthCondition = new ToggledValue<>(copyConfig.minHealthCondition);
+        timeSpentCondition = new IntegerToggledValue(copyConfig.timeSpentCondition);
+        afterCondition = new IntegerToggledValue(copyConfig.afterCondition);
+        beforeCondition = new IntegerToggledValue(copyConfig.beforeCondition);
+        directSunlightCondition = new BooleanToggledValue(copyConfig.directSunlightCondition);
+        distanceWalkedCondition = new IntegerToggledValue(copyConfig.distanceWalkedCondition);
+        noMonstersNearbyCondition = new BooleanToggledValue(copyConfig.noMonstersNearbyCondition);
+        minHealthCondition = new IntegerToggledValue(copyConfig.minHealthCondition);
 
-        xpCostAction = new ToggledValue<>(copyConfig.xpCostAction);
+        xpCostAction = new IntegerToggledValue(copyConfig.xpCostAction);
     }
 
-    private static ToggledValue<Integer> parseIntValue(CompoundTag tag) {
-        return new ToggledValue<>(tag.getBoolean("enabled"), tag.getInt("value"));
+    private static IntegerToggledValue parseIntValue(CompoundTag tag) {
+        return new IntegerToggledValue(tag.getBoolean("enabled"), tag.getInt("value"));
     }
 
-    private static ToggledValue<Boolean> parseBooleanValue(CompoundTag tag) {
-        return new ToggledValue<>(tag.getBoolean("enabled"), tag.getBoolean("value"));
+    private static BooleanToggledValue parseBooleanValue(CompoundTag tag) {
+        return new BooleanToggledValue(tag.getBoolean("enabled"), tag.getBoolean("value"));
     }
 
-    private static CompoundTag getIntegerValue(ToggledValue<Integer> value) {
+    private static CompoundTag getIntegerValue(IntegerToggledValue value) {
         CompoundTag tag = new CompoundTag();
         tag.putBoolean("enabled", value.isEnabled());
         tag.putInt("value", value.getValue());
         return tag;
     }
 
-    private static CompoundTag getBooleanValue(ToggledValue<Boolean> value) {
+    private static CompoundTag getBooleanValue(BooleanToggledValue value) {
         CompoundTag tag = new CompoundTag();
         tag.putBoolean("enabled", value.isEnabled());
         tag.putBoolean("value", value.getValue());

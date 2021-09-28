@@ -4,15 +4,15 @@ import java.util.Objects;
 
 public abstract class BaseConfig {
     public boolean enabled;
-    public ToggledValue<Integer> timeSpentCondition;;
-    public ToggledValue<Integer> afterCondition;
-    public ToggledValue<Integer> beforeCondition;
-    public ToggledValue<Boolean> directSunlightCondition;
-    public ToggledValue<Integer> distanceWalkedCondition;
-    public ToggledValue<Boolean> noMonstersNearbyCondition;
-    public ToggledValue<Integer> minHealthCondition;
+    public IntegerToggledValue timeSpentCondition;;
+    public IntegerToggledValue afterCondition;
+    public IntegerToggledValue beforeCondition;
+    public BooleanToggledValue directSunlightCondition;
+    public IntegerToggledValue distanceWalkedCondition;
+    public BooleanToggledValue noMonstersNearbyCondition;
+    public IntegerToggledValue minHealthCondition;
 
-    public ToggledValue<Integer> xpCostAction;
+    public IntegerToggledValue xpCostAction;
 
     @Override
     public boolean equals(Object o) {

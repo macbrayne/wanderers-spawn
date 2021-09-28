@@ -6,15 +6,15 @@ import java.io.IOException;
 
 public class GlobalConfig extends BaseConfig {
     public GlobalConfig() {
-        timeSpentCondition = new ToggledValue<>(300);
-        afterCondition = new ToggledValue<>(0);
-        beforeCondition = new ToggledValue<>(0);
-        directSunlightCondition = new ToggledValue<>(false);
-        distanceWalkedCondition = new ToggledValue<>(0);
-        noMonstersNearbyCondition = new ToggledValue<>(false);
-        minHealthCondition = new ToggledValue<>(0);
+        timeSpentCondition = new IntegerToggledValue(300);
+        afterCondition = new IntegerToggledValue(0);
+        beforeCondition = new IntegerToggledValue(0);
+        directSunlightCondition = new BooleanToggledValue(false);
+        distanceWalkedCondition = new IntegerToggledValue(0);
+        noMonstersNearbyCondition = new BooleanToggledValue(false);
+        minHealthCondition = new IntegerToggledValue(0);
 
-        xpCostAction = new ToggledValue<>(0);
+        xpCostAction = new IntegerToggledValue(0);
     }
 
 

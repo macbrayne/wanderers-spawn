@@ -1,0 +1,44 @@
+package de.macbrayne.architectury.wanderers_spawn.config;
+
+import java.util.function.Predicate;
+
+public class BooleanToggledValue {
+    private boolean enabled = false;
+    private boolean value;
+
+    private BooleanToggledValue() {
+
+    }
+
+    public BooleanToggledValue(boolean value) {
+        this.value = value;
+    }
+
+
+    public BooleanToggledValue(boolean enabled, boolean value) {
+        this.enabled = enabled;
+        this.value = value;
+    }
+
+    public BooleanToggledValue(BooleanToggledValue clone) {
+        this.enabled = clone.enabled;
+        this.value = clone.value;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public boolean getValue() {
+        return value;
+    }
+
+    public void setAndEnable(boolean value) {
+        enabled = true;
+        this.value = value;
+    }
+
+    public boolean isDisabledOr(Predicate<Boolean> action) {
+        return !enabled || action.test(value);
+    }
+}
