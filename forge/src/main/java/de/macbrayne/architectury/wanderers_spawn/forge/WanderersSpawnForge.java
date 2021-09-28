@@ -29,7 +29,7 @@ public class WanderersSpawnForge {
     @SubscribeEvent
     public void playerTickEvent(TickEvent.PlayerTickEvent tickEvent) {
         if(tickEvent.phase == TickEvent.Phase.START && tickEvent.side == LogicalSide.SERVER) {
-            ((ServerPlayerMixinPropertiesAccessor)this).wanderersSpawn$playerTickEvent().tick();
+            ((ServerPlayerMixinPropertiesAccessor)tickEvent.player).wanderersSpawn$playerTickEvent().tick();
         }
     }
 }
