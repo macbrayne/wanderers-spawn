@@ -1,11 +1,9 @@
 package de.macbrayne.architectury.wanderers_spawn.forge;
 
-import de.macbrayne.architectury.wanderers_spawn.ServerPlayerMixinPropertiesAccessor;
+import de.macbrayne.architectury.wanderers_spawn.accessor.ServerPlayerMixinPropertiesAccessor;
 import de.macbrayne.architectury.wanderers_spawn.WanderersSpawn;
 import de.macbrayne.architectury.wanderers_spawn.command.CommandRegistry;
-import de.macbrayne.architectury.wanderers_spawn.events.PlayerTickEvent;
 import net.minecraft.commands.Commands;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;

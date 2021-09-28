@@ -1,7 +1,7 @@
 package de.macbrayne.architectury.wanderers_spawn.mixin;
 
 import de.macbrayne.architectury.wanderers_spawn.Reference;
-import de.macbrayne.architectury.wanderers_spawn.ServerPlayerMixinPropertiesAccessor;
+import de.macbrayne.architectury.wanderers_spawn.accessor.ServerPlayerMixinPropertiesAccessor;
 import de.macbrayne.architectury.wanderers_spawn.config.PlayerConfig;
 import de.macbrayne.architectury.wanderers_spawn.events.PlayerTickEvent;
 import net.minecraft.nbt.CompoundTag;
