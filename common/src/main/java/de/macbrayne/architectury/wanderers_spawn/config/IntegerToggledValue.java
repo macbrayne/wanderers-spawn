@@ -1,5 +1,7 @@
 package de.macbrayne.architectury.wanderers_spawn.config;
 
+import net.minecraft.nbt.CompoundTag;
+
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -15,11 +17,6 @@ public class IntegerToggledValue {
         this.value = value;
     }
 
-
-    public IntegerToggledValue(boolean enabled, int value) {
-        this.enabled = enabled;
-        this.value = value;
-    }
 
     public IntegerToggledValue(IntegerToggledValue clone) {
         this.enabled = clone.enabled;
@@ -41,6 +38,18 @@ public class IntegerToggledValue {
 
     public boolean isDisabledOr(Predicate<Integer> action) {
         return !enabled || action.test(value);
+    }
+
+    public CompoundTag toNbt() {
+        CompoundTag tag = new CompoundTag();
+        tag.putBoolean("enabled", isEnabled());
+        tag.putInt("value", getValue());
+        return tag;
+    }
+
+    public void fromNbt(CompoundTag tag) {
+        enabled = tag.getBoolean("enabled");
+        value = tag.getInt("value");
     }
 
     @Override
