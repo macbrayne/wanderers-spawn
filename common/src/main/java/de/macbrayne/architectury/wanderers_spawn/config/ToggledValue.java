@@ -17,6 +17,12 @@ public class ToggledValue<T> {
         this.value = value;
     }
 
+
+    public ToggledValue(boolean enabled, @NotNull T value) {
+        this.enabled = enabled;
+        this.value = value;
+    }
+
     public ToggledValue(ToggledValue<T> clone) {
         this.enabled = clone.enabled;
         this.value = clone.value;
