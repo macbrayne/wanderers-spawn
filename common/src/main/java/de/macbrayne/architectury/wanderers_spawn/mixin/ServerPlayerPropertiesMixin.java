@@ -1,7 +1,7 @@
 package de.macbrayne.architectury.wanderers_spawn.mixin;
 
 import de.macbrayne.architectury.wanderers_spawn.Reference;
-import de.macbrayne.architectury.wanderers_spawn.accessor.ServerPlayerMixinPropertiesAccessor;
+import de.macbrayne.architectury.wanderers_spawn.accessor.ServerPlayerPropertiesMixinAccessor;
 import de.macbrayne.architectury.wanderers_spawn.config.PlayerConfig;
 import de.macbrayne.architectury.wanderers_spawn.events.PlayerTickEvent;
 import net.minecraft.nbt.CompoundTag;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayer.class)
-public class ServerPlayerMixinProperties implements ServerPlayerMixinPropertiesAccessor {
+public class ServerPlayerPropertiesMixin implements ServerPlayerPropertiesMixinAccessor {
     @Unique
     public PlayerConfig wanderersSpawn$playerConfig = new PlayerConfig(Reference.globalConfig);
 

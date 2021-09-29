@@ -4,7 +4,7 @@
   "package": "de.macbrayne.architectury.wanderers_spawn.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "ServerPlayerMixinProperties"
+    "ServerPlayerPropertiesMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,6 +1,6 @@
 package de.macbrayne.architectury.wanderers_spawn.forge;
 
-import de.macbrayne.architectury.wanderers_spawn.accessor.ServerPlayerMixinPropertiesAccessor;
+import de.macbrayne.architectury.wanderers_spawn.accessor.ServerPlayerPropertiesMixinAccessor;
 import de.macbrayne.architectury.wanderers_spawn.WanderersSpawn;
 import de.macbrayne.architectury.wanderers_spawn.command.CommandRegistry;
 import net.minecraft.commands.Commands;
@@ -27,7 +27,7 @@ public class WanderersSpawnForge {
     @SubscribeEvent
     public void playerTickEvent(TickEvent.PlayerTickEvent tickEvent) {
         if(tickEvent.phase == TickEvent.Phase.START && tickEvent.side == LogicalSide.SERVER) {
-            ((ServerPlayerMixinPropertiesAccessor)tickEvent.player).wanderersSpawn$playerTickEvent().tick();
+            ((ServerPlayerPropertiesMixinAccessor)tickEvent.player).wanderersSpawn$playerTickEvent().tick();
         }
     }
 }
