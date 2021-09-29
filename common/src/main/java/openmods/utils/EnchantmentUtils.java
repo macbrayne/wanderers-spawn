@@ -1,4 +1,4 @@
-package de.macbrayne.architectury.wanderers_spawn.openmods.utils;
+package openmods.utils;
 
 /*
  * The MIT License (MIT)

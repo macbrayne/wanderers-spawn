@@ -1,7 +1,7 @@
 package de.macbrayne.architectury.wanderers_spawn.events;
 
 import de.macbrayne.architectury.wanderers_spawn.config.PlayerConfig;
-import de.macbrayne.architectury.wanderers_spawn.openmods.utils.EnchantmentUtils;
+import openmods.utils.EnchantmentUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -76,5 +76,4 @@ public class PlayerTickEvent {
         // Set Spawn Position
         player.setRespawnPosition(player.level.dimension(), new BlockPos(player.position()), 0, false, true);
     }
-
 }
