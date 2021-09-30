@@ -4,7 +4,7 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import de.macbrayne.architectury.wanderers_spawn.Reference;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -29,7 +29,7 @@ public class ConditionsSubcommand {
                         .then(Commands.literal(Conditions.TIME_SPENT.commandSyntax)
                                 .then(Commands.argument("cooldown", TimeArgument.time())
                                         .executes(context -> {
-                                            Reference.globalConfig.timeSpentCondition.setAndEnable(IntegerArgumentType.getInteger(context, "cooldown"));
+                                            CommandUtils.getConfigFromPlayer(context).timeSpentCondition.setAndEnable(IntegerArgumentType.getInteger(context, "cooldown"));
                                             return announceQuery(context, "Time Spent");
                                         })))
                         .then(Commands.literal(Conditions.AFTER.commandSyntax)
@@ -57,36 +57,36 @@ public class ConditionsSubcommand {
                         .then(Commands.literal(Conditions.DIRECT_SKYLIGHT.commandSyntax)
                                 .then(Commands.argument("required", BoolArgumentType.bool())
                                         .executes(context -> {
-                                            Reference.globalConfig.directSunlightCondition.setAndEnable(BoolArgumentType.getBool(context, "required"));
+                                            CommandUtils.getConfigFromPlayer(context).directSunlightCondition.setAndEnable(BoolArgumentType.getBool(context, "required"));
                                             return announceQuery(context, "Required");
                                         })))
                         .then(Commands.literal(Conditions.DISTANCE_WALKED.commandSyntax)
                                 .then(Commands.argument("walked", IntegerArgumentType.integer(0))
                                         .executes(context -> {
-                                            Reference.globalConfig.distanceWalkedCondition.setAndEnable(IntegerArgumentType.getInteger(context, "walked"));
+                                            CommandUtils.getConfigFromPlayer(context).distanceWalkedCondition.setAndEnable(IntegerArgumentType.getInteger(context, "walked"));
                                             return announceQuery(context, "Walked");
                                         })))
                         .then(Commands.literal(Conditions.NO_MONSTERS_NEARBY.commandSyntax)
                                 .then(Commands.argument("required", BoolArgumentType.bool())
                                         .executes(context -> {
-                                            Reference.globalConfig.noMonstersNearbyCondition.setAndEnable(BoolArgumentType.getBool(context, "required"));
+                                            CommandUtils.getConfigFromPlayer(context).noMonstersNearbyCondition.setAndEnable(BoolArgumentType.getBool(context, "required"));
                                             return announceQuery(context, "Required");
                                         })))
                         .then(Commands.literal(Conditions.MIN_HEALTH.commandSyntax)
                                 .then(Commands.argument("health", IntegerArgumentType.integer(0, 20))
                                         .executes(context -> {
-                                            Reference.globalConfig.minHealthCondition.setAndEnable(IntegerArgumentType.getInteger(context, "health"));
+                                            CommandUtils.getConfigFromPlayer(context).minHealthCondition.setAndEnable(IntegerArgumentType.getInteger(context, "health"));
                                             return announceQuery(context, "Health");
                                         }))));
     }
 
-    private int setBefore(CommandContext<CommandSourceStack> context, int ticks) {
-        Reference.globalConfig.beforeCondition.setAndEnable(ticks);
+    private int setBefore(CommandContext<CommandSourceStack> context, int ticks) throws CommandSyntaxException {
+        CommandUtils.getConfigFromPlayer(context).beforeCondition.setAndEnable(ticks);
         return announceQuery(context, "Set Before to " + ticks);
     }
 
-    private int setAfter(CommandContext<CommandSourceStack> context, int ticks) {
-        Reference.globalConfig.afterCondition.setAndEnable(ticks);
+    private int setAfter(CommandContext<CommandSourceStack> context, int ticks) throws CommandSyntaxException {
+        CommandUtils.getConfigFromPlayer(context).afterCondition.setAndEnable(ticks);
         return announceQuery(context, "Set After to " + ticks);
     }
 

@@ -3,6 +3,7 @@ package de.macbrayne.architectury.wanderers_spawn.command;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import de.macbrayne.architectury.wanderers_spawn.Reference;
 import openmods.utils.EnchantmentUtils;
 import net.minecraft.commands.CommandSourceStack;
@@ -33,10 +34,10 @@ public class ActionsSubcommand {
                                                 .executes(context -> setXpCost(context,  true))))));
     }
 
-    private int setXpCost(CommandContext<CommandSourceStack> context, boolean isAmountInLevels) {
+    private int setXpCost(CommandContext<CommandSourceStack> context, boolean isAmountInLevels) throws CommandSyntaxException {
         int argument = IntegerArgumentType.getInteger(context, "amount");
         int amount = isAmountInLevels ? EnchantmentUtils.getExperienceForLevel(argument) : argument;
-        Reference.globalConfig.xpCostAction.setAndEnable(amount);
+        CommandUtils.getConfigFromPlayer(context).xpCostAction.setAndEnable(amount);
         return announceQuery(context, "");
     }
 
