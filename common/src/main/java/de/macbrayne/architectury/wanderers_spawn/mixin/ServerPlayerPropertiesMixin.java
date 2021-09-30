@@ -25,6 +25,11 @@ public class ServerPlayerPropertiesMixin implements ServerPlayerPropertiesMixinA
         return wanderersSpawn$playerTickEvent;
     }
 
+    @Override
+    public PlayerConfig wanderersSpawn$playerConfig() {
+        return wanderersSpawn$playerConfig;
+    }
+
     @Inject(at = @At("RETURN"), method = "readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V")
     public void readAdditionalSaveData(CompoundTag compoundTag, CallbackInfo ci) {
         wanderersSpawn$playerConfig = new PlayerConfig(Reference.globalConfig);
