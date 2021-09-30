@@ -106,13 +106,13 @@ public class ConditionsSubcommand {
                         .then(Commands.literal(Conditions.BEFORE.commandSyntax)
                                 .executes(context -> announceQuery(context, Conditions.BEFORE, CommandUtils.getConfigFromPlayer(context).beforeCondition.getValue())))
                         .then(Commands.literal(Conditions.DIRECT_SKYLIGHT.commandSyntax)
-                                .executes(context -> announceQuery(context, Conditions.DIRECT_SKYLIGHT, CommandUtils.getConfigFromPlayer(context).directSunlightCondition.getValue()))
+                                .executes(context -> announceQuery(context, Conditions.DIRECT_SKYLIGHT, CommandUtils.getConfigFromPlayer(context).directSunlightCondition.getValue())))
                         .then(Commands.literal(Conditions.DISTANCE_WALKED.commandSyntax)
                                 .executes(context -> announceQuery(context, Conditions.DISTANCE_WALKED, CommandUtils.getConfigFromPlayer(context).distanceWalkedCondition.getValue())))
                         .then(Commands.literal(Conditions.NO_MONSTERS_NEARBY.commandSyntax)
                                 .executes(context -> announceQuery(context, Conditions.NO_MONSTERS_NEARBY, CommandUtils.getConfigFromPlayer(context).noMonstersNearbyCondition.getValue())))
                         .then(Commands.literal(Conditions.MIN_HEALTH.commandSyntax)
-                                .executes(context -> announceQuery(context, Conditions.MIN_HEALTH, CommandUtils.getConfigFromPlayer(context).minHealthCondition.getValue())))));
+                                .executes(context -> announceQuery(context, Conditions.MIN_HEALTH, CommandUtils.getConfigFromPlayer(context).minHealthCondition.getValue()))));
     }
 
     private LiteralArgumentBuilder<CommandSourceStack> getRemove() {
