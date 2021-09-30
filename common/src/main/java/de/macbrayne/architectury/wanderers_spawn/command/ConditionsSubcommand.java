@@ -100,21 +100,19 @@ public class ConditionsSubcommand {
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
                         .then(Commands.literal(Conditions.TIME_SPENT.commandSyntax)
-                                .executes(context -> announceQuery(context, "Time Spent")))
+                                .executes(context -> announceQuery(context, Conditions.TIME_SPENT, CommandUtils.getConfigFromPlayer(context).timeSpentCondition.getValue())))
                         .then(Commands.literal(Conditions.AFTER.commandSyntax)
-                                .executes(context -> announceQuery(context, "After")))
+                                .executes(context -> announceQuery(context, Conditions.AFTER, CommandUtils.getConfigFromPlayer(context).afterCondition.getValue())))
                         .then(Commands.literal(Conditions.BEFORE.commandSyntax)
-                                .executes(context -> announceQuery(context, "Before")))
+                                .executes(context -> announceQuery(context, Conditions.BEFORE, CommandUtils.getConfigFromPlayer(context).beforeCondition.getValue())))
                         .then(Commands.literal(Conditions.DIRECT_SKYLIGHT.commandSyntax)
-                                .executes(context -> announceQuery(context, "Direct Sunlight")))
+                                .executes(context -> announceQuery(context, Conditions.DIRECT_SKYLIGHT, CommandUtils.getConfigFromPlayer(context).directSunlightCondition.getValue()))
                         .then(Commands.literal(Conditions.DISTANCE_WALKED.commandSyntax)
-                                .executes(context -> announceQuery(context, "Distance Walked")))
+                                .executes(context -> announceQuery(context, Conditions.DISTANCE_WALKED, CommandUtils.getConfigFromPlayer(context).distanceWalkedCondition.getValue())))
                         .then(Commands.literal(Conditions.NO_MONSTERS_NEARBY.commandSyntax)
-                                .executes(context -> announceQuery(context, "No Monsters Nearby")))
+                                .executes(context -> announceQuery(context, Conditions.NO_MONSTERS_NEARBY, CommandUtils.getConfigFromPlayer(context).noMonstersNearbyCondition.getValue())))
                         .then(Commands.literal(Conditions.MIN_HEALTH.commandSyntax)
-                                .executes(context -> announceQuery(context, "Min Health")))
-                        .then(Commands.literal(Conditions.XP_COST.commandSyntax)
-                                .executes(context -> announceQuery(context, "XP Cost"))));
+                                .executes(context -> announceQuery(context, Conditions.MIN_HEALTH, CommandUtils.getConfigFromPlayer(context).minHealthCondition.getValue())))));
     }
 
     private LiteralArgumentBuilder<CommandSourceStack> getRemove() {
@@ -122,21 +120,19 @@ public class ConditionsSubcommand {
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
                         .then(Commands.literal(Conditions.TIME_SPENT.commandSyntax)
-                                .executes(context -> announceReset(context, "Time Spent")))
+                                .executes(context -> announceReset(context, Conditions.TIME_SPENT)))
                         .then(Commands.literal(Conditions.AFTER.commandSyntax)
-                                .executes(context -> announceReset(context, "After")))
+                                .executes(context -> announceReset(context, Conditions.AFTER)))
                         .then(Commands.literal(Conditions.BEFORE.commandSyntax)
-                                .executes(context -> announceReset(context, "Before")))
+                                .executes(context -> announceReset(context, Conditions.BEFORE)))
                         .then(Commands.literal(Conditions.DIRECT_SKYLIGHT.commandSyntax)
-                                .executes(context -> announceReset(context, "Direct Sunlight")))
+                                .executes(context -> announceReset(context, Conditions.DIRECT_SKYLIGHT)))
                         .then(Commands.literal(Conditions.DISTANCE_WALKED.commandSyntax)
-                                .executes(context -> announceReset(context, "Distance Walked")))
+                                .executes(context -> announceReset(context, Conditions.DISTANCE_WALKED)))
                         .then(Commands.literal(Conditions.NO_MONSTERS_NEARBY.commandSyntax)
-                                .executes(context -> announceReset(context, "No Monsters Nearby")))
+                                .executes(context -> announceReset(context, Conditions.NO_MONSTERS_NEARBY)))
                         .then(Commands.literal(Conditions.MIN_HEALTH.commandSyntax)
-                                .executes(context -> announceReset(context, "Min Health")))
-                        .then(Commands.literal(Conditions.XP_COST.commandSyntax)
-                                .executes(context -> announceReset(context, "XP Cost"))));
+                                .executes(context -> announceReset(context, Conditions.MIN_HEALTH))));
     }
 
     private <T> int announceSet(CommandContext<CommandSourceStack> context, Conditions conditions, T value) {
@@ -144,21 +140,20 @@ public class ConditionsSubcommand {
         return 1;
     }
 
-    private int announceQuery(CommandContext<CommandSourceStack> context, String message) {
-        context.getSource().sendSuccess(Component.nullToEmpty(message), false);
+    private <T> int announceQuery(CommandContext<CommandSourceStack> context, Conditions conditions, T value) {
+        context.getSource().sendSuccess(Component.nullToEmpty(conditions.commandSyntax + " is " + value), false);
         return 1;
     }
 
-    private int announceReset(CommandContext<CommandSourceStack> context, String message) {
-        context.getSource().sendSuccess(Component.nullToEmpty(message), false);
+    private int announceReset(CommandContext<CommandSourceStack> context, Conditions conditions) {
+        context.getSource().sendSuccess(Component.nullToEmpty("Reset " + conditions.commandSyntax), false);
         return 1;
     }
 
     public enum Conditions {
         TIME_SPENT("timeSpent"), AFTER, BEFORE,
         DIRECT_SKYLIGHT("directSkylight"), DISTANCE_WALKED("distanceWalked"),
-        NO_MONSTERS_NEARBY("noMonstersNearby"), XP_COST("xpCost"),
-        MIN_HEALTH("minHealth");
+        NO_MONSTERS_NEARBY("noMonstersNearby"), MIN_HEALTH("minHealth");
 
         String commandSyntax;
 
