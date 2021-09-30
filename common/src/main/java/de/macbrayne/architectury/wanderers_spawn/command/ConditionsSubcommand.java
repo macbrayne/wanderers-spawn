@@ -29,8 +29,9 @@ public class ConditionsSubcommand {
                         .then(Commands.literal(Conditions.TIME_SPENT.commandSyntax)
                                 .then(Commands.argument("cooldown", TimeArgument.time())
                                         .executes(context -> {
-                                            CommandUtils.getConfigFromPlayer(context).timeSpentCondition.setAndEnable(IntegerArgumentType.getInteger(context, "cooldown"));
-                                            return announceQuery(context, "Time Spent");
+                                            int cooldown = IntegerArgumentType.getInteger(context, "cooldown");
+                                            CommandUtils.getConfigFromPlayer(context).timeSpentCondition.setAndEnable(cooldown);
+                                            return announceSet(context, Conditions.TIME_SPENT, cooldown);
                                         })))
                         .then(Commands.literal(Conditions.AFTER.commandSyntax)
                                 .then(Commands.literal("day")
@@ -57,37 +58,41 @@ public class ConditionsSubcommand {
                         .then(Commands.literal(Conditions.DIRECT_SKYLIGHT.commandSyntax)
                                 .then(Commands.argument("required", BoolArgumentType.bool())
                                         .executes(context -> {
-                                            CommandUtils.getConfigFromPlayer(context).directSunlightCondition.setAndEnable(BoolArgumentType.getBool(context, "required"));
-                                            return announceQuery(context, "Required");
+                                            boolean directSunlightCondition = BoolArgumentType.getBool(context, "required");
+                                            CommandUtils.getConfigFromPlayer(context).directSunlightCondition.setAndEnable(directSunlightCondition);
+                                            return announceSet(context, Conditions.DIRECT_SKYLIGHT, directSunlightCondition);
                                         })))
                         .then(Commands.literal(Conditions.DISTANCE_WALKED.commandSyntax)
                                 .then(Commands.argument("walked", IntegerArgumentType.integer(0))
                                         .executes(context -> {
-                                            CommandUtils.getConfigFromPlayer(context).distanceWalkedCondition.setAndEnable(IntegerArgumentType.getInteger(context, "walked"));
-                                            return announceQuery(context, "Walked");
+                                            int distanceWalked = IntegerArgumentType.getInteger(context, "walked");
+                                            CommandUtils.getConfigFromPlayer(context).distanceWalkedCondition.setAndEnable(distanceWalked);
+                                            return announceSet(context, Conditions.DISTANCE_WALKED, distanceWalked);
                                         })))
                         .then(Commands.literal(Conditions.NO_MONSTERS_NEARBY.commandSyntax)
                                 .then(Commands.argument("required", BoolArgumentType.bool())
                                         .executes(context -> {
-                                            CommandUtils.getConfigFromPlayer(context).noMonstersNearbyCondition.setAndEnable(BoolArgumentType.getBool(context, "required"));
-                                            return announceQuery(context, "Required");
+                                            boolean noMonstersNearbyCondition = BoolArgumentType.getBool(context, "required");
+                                            CommandUtils.getConfigFromPlayer(context).noMonstersNearbyCondition.setAndEnable(noMonstersNearbyCondition);
+                                            return announceSet(context, Conditions.NO_MONSTERS_NEARBY, noMonstersNearbyCondition);
                                         })))
                         .then(Commands.literal(Conditions.MIN_HEALTH.commandSyntax)
                                 .then(Commands.argument("health", IntegerArgumentType.integer(0, 20))
                                         .executes(context -> {
-                                            CommandUtils.getConfigFromPlayer(context).minHealthCondition.setAndEnable(IntegerArgumentType.getInteger(context, "health"));
-                                            return announceQuery(context, "Health");
+                                            int minHealth = IntegerArgumentType.getInteger(context, "health");
+                                            CommandUtils.getConfigFromPlayer(context).minHealthCondition.setAndEnable(minHealth);
+                                            return announceSet(context, Conditions.MIN_HEALTH, minHealth);
                                         }))));
     }
 
     private int setBefore(CommandContext<CommandSourceStack> context, int ticks) throws CommandSyntaxException {
         CommandUtils.getConfigFromPlayer(context).beforeCondition.setAndEnable(ticks);
-        return announceQuery(context, "Set Before to " + ticks);
+        return announceSet(context, Conditions.BEFORE, ticks);
     }
 
     private int setAfter(CommandContext<CommandSourceStack> context, int ticks) throws CommandSyntaxException {
         CommandUtils.getConfigFromPlayer(context).afterCondition.setAndEnable(ticks);
-        return announceQuery(context, "Set After to " + ticks);
+        return announceSet(context, Conditions.AFTER, ticks);
     }
 
     private LiteralArgumentBuilder<CommandSourceStack> getQuery() {
@@ -132,6 +137,11 @@ public class ConditionsSubcommand {
                                 .executes(context -> announceReset(context, "Min Health")))
                         .then(Commands.literal(Conditions.XP_COST.commandSyntax)
                                 .executes(context -> announceReset(context, "XP Cost"))));
+    }
+
+    private <T> int announceSet(CommandContext<CommandSourceStack> context, Conditions conditions, T value) {
+        context.getSource().sendSuccess(Component.nullToEmpty("Set " + conditions.commandSyntax + " to " + value), false);
+        return 1;
     }
 
     private int announceQuery(CommandContext<CommandSourceStack> context, String message) {
