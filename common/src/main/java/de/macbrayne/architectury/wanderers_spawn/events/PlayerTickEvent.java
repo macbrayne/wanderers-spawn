@@ -74,6 +74,7 @@ public class PlayerTickEvent {
         timeSpentTriggered = false;
 
         // Set Spawn Position
-        player.setRespawnPosition(player.level.dimension(), new BlockPos(player.position()), 0, false, true);
+        // Dimension, Position, Angle, Announce in Chat, Force even if bed obstructed
+        player.setRespawnPosition(player.level.dimension(), new BlockPos(player.position()), 0, true, true);
     }
 }
