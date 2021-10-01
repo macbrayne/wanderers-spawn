@@ -4,12 +4,10 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import de.macbrayne.architectury.wanderers_spawn.Reference;
-import openmods.utils.EnchantmentUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.Component;
+import openmods.utils.EnchantmentUtils;
 
 import java.util.Locale;
 
@@ -26,7 +24,7 @@ public class ActionsSubcommand {
         return Commands.literal("set")
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
-                        .then(Commands.literal(Actions.XP_COST.commandSyntax)
+                        .then(Commands.literal(Actions.XP_COST.commandSyntax())
                                 .then(Commands.argument("amount", IntegerArgumentType.integer(0))
                                         .then(Commands.literal("points")
                                                 .executes(context -> setXpCost(context,  false)))
@@ -38,36 +36,26 @@ public class ActionsSubcommand {
         int argument = IntegerArgumentType.getInteger(context, "amount");
         int amount = isAmountInLevels ? EnchantmentUtils.getExperienceForLevel(argument) : argument;
         CommandUtils.getConfigFromPlayer(context).xpCostAction.setAndEnable(amount);
-        return announceQuery(context, "");
+        return CommandUtils.announceQuery(context, Actions.XP_COST, argument);
     }
 
     private LiteralArgumentBuilder<CommandSourceStack> getQuery() {
         return Commands.literal("query")
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
-                        .then(Commands.literal(Actions.XP_COST.commandSyntax)
-                                .executes(context -> announceQuery(context, "XP Cost"))));
+                        .then(Commands.literal(Actions.XP_COST.commandSyntax())
+                                .executes(context -> CommandUtils.announceQuery(context, Actions.XP_COST, CommandUtils.getConfigFromPlayer(context).xpCostAction.getValue()))));
     }
 
     private LiteralArgumentBuilder<CommandSourceStack> getRemove() {
         return Commands.literal("remove")
                 .requires(CommandUtils::isPermitted)
                 .then(Commands.argument("player", EntityArgument.player())
-                        .then(Commands.literal(Actions.XP_COST.commandSyntax)
-                                .executes(context -> announceReset(context, "XP Cost"))));
+                        .then(Commands.literal(Actions.XP_COST.commandSyntax())
+                                .executes(context -> CommandUtils.announceReset(context, Actions.XP_COST))));
     }
 
-    private int announceQuery(CommandContext<CommandSourceStack> context, String message) {
-        context.getSource().sendSuccess(Component.nullToEmpty(message), false);
-        return 1;
-    }
-
-    private int announceReset(CommandContext<CommandSourceStack> context, String message) {
-        context.getSource().sendSuccess(Component.nullToEmpty(message), false);
-        return 1;
-    }
-
-    public enum Actions {
+    public enum Actions implements Announceable {
         XP_COST("xpCost");
 
         String commandSyntax;
@@ -78,6 +66,11 @@ public class ActionsSubcommand {
 
         Actions(String commandSyntax) {
             this.commandSyntax = commandSyntax;
+        }
+
+        @Override
+        public String commandSyntax() {
+            return commandSyntax;
         }
     }
 }

@@ -6,6 +6,7 @@ import de.macbrayne.architectury.wanderers_spawn.accessor.ServerPlayerProperties
 import de.macbrayne.architectury.wanderers_spawn.config.BaseConfig;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.Component;
 
 public class CommandUtils {
     public static boolean isPermitted(CommandSourceStack sourceStack) {
@@ -14,5 +15,21 @@ public class CommandUtils {
 
     public static BaseConfig getConfigFromPlayer(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         return ((ServerPlayerPropertiesMixinAccessor) EntityArgument.getPlayer(context, "player")).wanderersSpawn$playerConfig();
+    }
+
+
+    public static  <T> int announceSet(CommandContext<CommandSourceStack> context, Announceable conditions, T value) {
+        context.getSource().sendSuccess(Component.nullToEmpty("Set " + conditions.translationKey() + " to " + value), false);
+        return 1;
+    }
+
+    public static  <T> int announceQuery(CommandContext<CommandSourceStack> context, Announceable conditions, T value) {
+        context.getSource().sendSuccess(Component.nullToEmpty(conditions.translationKey() + " is " + value), false);
+        return 1;
+    }
+
+    public static int announceReset(CommandContext<CommandSourceStack> context, Announceable conditions) {
+        context.getSource().sendSuccess(Component.nullToEmpty("Reset " + conditions.translationKey()), false);
+        return 1;
     }
 }
